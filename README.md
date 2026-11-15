@@ -6,9 +6,9 @@ Aplicación de identificación, aprendizaje y registro de aves. Empieza por Espa
 
 | | |
 |---|---|
-| Fase | **1 — Base científica.** Hito 1.1 (tarea T1, importador de AviList) hecho el 2026-11-15 |
-| Situación | Existe `datos/`: importa AviList v2026 completo (33.698 taxones) a SQLite con identificadores estables. 17 pruebas de 17 superadas en el entorno de Claude; **sin ejecutar aún en Windows**. La app no existe todavía |
-| Siguiente paso | Tarea T2 de `docs/ROADMAP.md`: prueba en el iPhone |
+| Fase | **1 — Base científica.** Hito 1.1 (T1, importador de AviList) hecho. Hito 1.2 (T2, prueba en el iPhone) en curso |
+| Situación | `datos/` importa AviList v2026 completo (33.698 taxones) a SQLite con identificadores estables: 17 pruebas de 17 superadas. `app/` es una app de prueba sin diseño que busca y guarda sin conexión: 8 pasos de 8 superados en Chrome. **Nada se ha probado aún en el iPhone ni en Windows** |
+| Siguiente paso | Publicar `app/` en Cloudflare Pages y hacer las comprobaciones A-F de `docs/ROADMAP.md` en el iPhone |
 | Dónde está el código | Repositorio privado <https://github.com/RavelRus/avedex>, rama `main`. Claude sube los cambios directamente a `main` y Pablo los revisa después (D-019) |
 
 ## Decisiones técnicas principales
@@ -38,6 +38,7 @@ Estas cuatro respuestas condicionan casi toda la arquitectura. Si alguna cambia,
 | `docs/ROADMAP.md` | Fases, hitos comprobables y primera tarea de programación |
 | `docs/DECISIONES.md` | Decisiones tomadas, decisiones pendientes, riesgos y problemas conocidos |
 | `datos/` | Importador de AviList, pruebas, archivo de anclas e informe de importación. Instrucciones en `datos/README.md` |
+| `app/` | La aplicación web instalable. De momento, solo la app de prueba de T2. Instrucciones en `app/README.md` |
 
 ## Cómo retomar el proyecto en otra sesión
 

@@ -1,6 +1,6 @@
 # ROADMAP
 
-Versión 0.3 — 2026-11-15 — Fase 0 cerrada; hito 1.1 (T1) hecho
+Versión 0.4 — 2026-11-15 — Fase 0 cerrada; hito 1.1 (T1) hecho; hito 1.2 (T2) construido y probado en Chrome, pendiente de la prueba en el iPhone
 
 Cada hito termina con una comprobación concreta. Un hito no se marca como hecho sin anotar aquí qué se probó y con qué resultado.
 
@@ -28,7 +28,7 @@ Se mantiene el orden de fases del planteamiento original, con tres ajustes:
 | Hito | Qué se construye | Comprobación |
 |---|---|---|
 | **1.1 Importador de AviList** (tarea T1) — **HECHO 2026-11-15** | Script que convierte el archivo oficial en `referencia.sqlite` | 17 pruebas de 17 superadas. Ver «Resultado de T1» abajo |
-| **1.2 Prueba en el iPhone** (tarea T2) | PWA mínima: carga `referencia.sqlite`, busca por nombre científico, guarda una nota de prueba | Instalada en el iPhone; busca en modo avión; la nota sobrevive a reiniciar el móvil y a 8 días sin abrir la app |
+| **1.2 Prueba en el iPhone** (tarea T2) — **EN CURSO** | PWA mínima: carga `referencia.sqlite`, busca por nombre científico, guarda una nota de prueba | Instalada en el iPhone; busca en modo avión; la nota sobrevive a reiniciar el móvil y a 8 días sin abrir la app. Ver «Estado de T2» abajo |
 | 1.3 Lista de España y nombres en español | Importador de la lista de SEO/BirdLife 2022 sobre la taxonomía de AviList, como archivo complementario que se carga en el dispositivo y no se publica (D-009) | Informe de taxones que casan y que no; cero equivalencias sin revisar; el archivo complementario no aparece en la web publicada |
 | 1.4 Sistema de actualización | Importar una segunda versión (v2025 → v2026) conservando identificadores | Los identificadores de los taxones sin cambios son idénticos tras actualizar; los cambios quedan en `cambio_taxonomico` |
 
@@ -154,4 +154,41 @@ Pruebas añadidas: Avibase ID único por especie y subespecie; un nombre prefere
 
 ### T2 — Prueba en el iPhone (inmediatamente después)
 
-PWA mínima sin diseño que carga la `referencia.sqlite` de T1. Es la comprobación de continuidad de la arquitectura. Se hace con React (D-007) y se publica con Cloudflare Pages desde un repositorio privado de GitHub (D-008). Las cuentas ya están creadas; falta crear el repositorio y decidir cómo llega el código hasta él.
+PWA mínima sin diseño que carga la `referencia.sqlite` de T1. Es la comprobación de continuidad de la arquitectura. Se hace con React (D-007) y se publica con Cloudflare Pages desde un repositorio privado de GitHub (D-008).
+
+#### Estado de T2 (2026-11-15)
+
+**Hecho por Claude.** Código en `app/`. La app descarga la base de aves la primera vez, la guarda en el dispositivo, busca por nombre científico o inglés, guarda notas de prueba en una base aparte y abre sin conexión. Muestra un panel de estado para leer el resultado de cada comprobación.
+
+**Probado de verdad en Chrome** (prueba automática `npm run probar:navegador`, 8 pasos de 8 superados, en el entorno de Claude):
+
+| Paso | Resultado |
+|---|---|
+| Primera apertura: descarga e instala la base (33.698 taxones) | Superado, 1,5 s en local |
+| Búsqueda «Parus major» con linaje y 16 subespecies | Superado, 88 ms |
+| Búsqueda sin mayúsculas y por nombre en inglés | Superado, 25 y 258 ms |
+| Los caracteres especiales no rompen la búsqueda | Superado |
+| Guardar una nota | Superado |
+| Cerrar y abrir el navegador: la nota sigue y la base no se vuelve a descargar | Superado |
+| Sin conexión: la app abre, conserva la nota y busca | Superado |
+
+Los tiempos son de un ordenador, no de un iPhone.
+
+**No probado todavía:** nada de esto se ha ejecutado en Safari ni en un iPhone. Chrome valida el código; no dice cómo se comporta iOS. Tampoco se ha publicado aún en Cloudflare.
+
+**Pendiente de Pablo:**
+
+1. Conectar Cloudflare Pages con el repositorio (directorio raíz `app`, comando `npm run build`, salida `dist`).
+2. Abrir la dirección en Safari del iPhone y añadir la app a la pantalla de inicio.
+3. Comprobaciones en el iPhone, siempre abriendo desde el icono:
+
+| Nº | Comprobación | Se supera si |
+|---|---|---|
+| A | Primera apertura con conexión | El panel dice «Abierta como app instalada: sí» y muestra 33.698 taxones |
+| B | Buscar «Parus major» | Aparece con Passeriformes › Paridae › Parus y 16 subespecies; anotar los milisegundos |
+| C | Guardar una nota | «Notas guardadas» pasa a 1 |
+| D | Cerrar la app del todo y abrirla en modo avión | Abre, la nota sigue y la búsqueda funciona |
+| E | Apagar y encender el iPhone | La nota sigue |
+| F | No abrirla durante 8 días y volver a abrirla | La nota sigue y «Primera nota guardada hace» marca más de 8 días |
+
+**Criterio de continuidad:** si A-E se superan, se sigue con el hito 1.3 mientras corre la espera de F. Si alguna de A-E falla, se para y se replantea el almacenamiento con Pablo.

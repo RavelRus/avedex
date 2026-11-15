@@ -1,0 +1,50 @@
+:root {
+  color-scheme: light dark;
+  --fondo: #f6f4ee;
+  --texto: #1c1c1a;
+  --tenue: #5d5d57;
+  --borde: #cfcbbf;
+  --acento: #1f5f4a;
+  --bien: #1f6b3a;
+  --mal: #a3341f;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.45;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --fondo: #171a18; --texto: #ecebe6; --tenue: #a9a79f; --borde: #3a3e3a; --acento: #7fc9ad; --bien: #7fd39a; --mal: #f09a86; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto); }
+main {
+  max-width: 44rem; margin: 0 auto;
+  padding: calc(1rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right)) calc(2rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
+}
+h1 { font-size: 1.6rem; margin: 0 0 .25rem; }
+h1 small { font-size: .85rem; font-weight: 400; color: var(--tenue); }
+h2 { font-size: 1.15rem; margin: 0 0 .6rem; }
+section { border-top: 1px solid var(--borde); padding: 1rem 0; }
+.nota-cabecera, .pista { color: var(--tenue); font-size: .88rem; margin: .3rem 0; }
+li .pista { display: block; }
+dl { display: grid; grid-template-columns: minmax(9rem, 45%) 1fr; gap: .35rem .75rem; margin: 0; }
+dt { color: var(--tenue); font-size: .9rem; }
+dd { margin: 0; overflow-wrap: anywhere; }
+.bien { color: var(--bien); font-weight: 600; }
+.mal { color: var(--mal); font-weight: 600; }
+label { display: block; font-size: .9rem; color: var(--tenue); margin-bottom: .25rem; }
+input {
+  width: 100%; font: inherit; padding: .7rem .8rem; min-height: 48px;
+  border: 1px solid var(--borde); border-radius: 10px; background: transparent; color: inherit;
+}
+input:focus-visible, button:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
+button {
+  font: inherit; font-weight: 600; min-height: 48px; padding: .6rem 1rem; border-radius: 10px;
+  border: 1px solid var(--acento); background: var(--acento); color: var(--fondo); cursor: pointer;
+}
+button.secundario { min-height: 36px; padding: .2rem .6rem; background: transparent; color: var(--acento); font-weight: 500; }
+.fila { display: flex; gap: .5rem; }
+.fila input { flex: 1; min-width: 0; }
+ul { list-style: none; padding: 0; margin: .6rem 0 0; }
+ul li { padding: .55rem 0; border-bottom: 1px solid var(--borde); overflow-wrap: anywhere; }
+.aviso { padding: .8rem 1rem; border: 1px solid var(--borde); border-radius: 10px; }
+.aviso.error { border-color: var(--mal); color: var(--mal); }

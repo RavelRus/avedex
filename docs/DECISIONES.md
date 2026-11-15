@@ -1,6 +1,6 @@
 # DECISIONES, RIESGOS Y PENDIENTES
 
-Versión 0.4 — 2026-11-15
+Versión 0.5 — 2026-11-15
 
 ## 1. Decisiones tomadas
 
@@ -25,7 +25,7 @@ Versión 0.4 — 2026-11-15
 | D-015 | Primera tarea: importador de AviList (T1). Segunda: prueba en el iPhone (T2) | Empezar por la prueba en el iPhone con datos de ejemplo | `ROADMAP.md` |
 | D-019 | Claude sube cada cambio directamente a la rama `main` del repositorio y resume lo hecho; Pablo revisa después | Rama aparte y solicitud (pull request) que Pablo aprueba antes | `README.md` |
 
-### Técnicas, tomadas por Claude durante T1 (2026-11-15)
+### Técnicas, tomadas por Claude durante T1 y T2 (2026-11-15)
 
 Decisiones de implementación dentro de lo ya aprobado. Se pueden revertir volviendo a ejecutar el importador; **Pablo puede vetarlas**.
 
@@ -34,6 +34,10 @@ Decisiones de implementación dentro de lo ya aprobado. Se pueden revertir volvi
 | D-016 | El identificador estable de cada taxón es un entero propio de AVEDEX. Especies y subespecies se reconocen entre versiones por su **Avibase ID**; órdenes, familias y géneros, por rango + nombre. La correspondencia vive en `datos/anclas/taxones.csv` | AviList incluye el Avibase ID y lo define como identificador estable del concepto taxonómico. Así una especie conserva su número aunque cambie de género o de nombre | Usar el Avibase ID directamente como identificador (ata la app a un sistema externo y deja sin identificador a los rangos superiores) |
 | D-017 | La referencia científica se reparte en **dos archivos**: `referencia.sqlite` (16,2 MB) y `referencia-nomenclatura.sqlite` (8,7 MB, datos bibliográficos del modo Experto) | Todo junto pesaba 26,5 MB y Cloudflare Pages no admite archivos de más de 25 MiB. Además aligera la descarga inicial | Un solo archivo; o no importar los datos nomenclaturales |
 | D-018 | Los scripts de datos usan solo lo que trae Node (TypeScript directo, SQLite y ejecutor de pruebas incluidos) más una única dependencia, `read-excel-file` | Menos piezas que instalar y mantener en Windows; nada que compilar | better-sqlite3 + Vitest (más dependencias, una de ellas con código nativo) |
+
+| D-020 | La base de aves generada (`app/public/referencia.sqlite`, 16 MB) **se guarda en el repositorio**, junto a su huella `referencia.json`. Se regenera con `npm run publicar` en `datos/` | Cloudflare solo tiene que compilar la app; no depende de ejecutar el importador ni del SQLite experimental de Node en sus servidores | Generarla en cada publicación (más frágil); el coste es que el repositorio crece 16 MB cada vez que cambie la base, previsiblemente una vez al año |
+| D-021 | El service worker (lo que permite abrir sin conexión) es propio, unas 40 líneas generadas por `vite.config.ts` | La librería habitual (vite-plugin-pwa) arrastraba cientos de dependencias, varias con avisos de seguridad | vite-plugin-pwa |
+| D-022 | La base de aves no se guarda dos veces: el service worker guarda solo la app, y la base vive en el almacenamiento privado del navegador (OPFS). La app la vuelve a descargar solo si cambia su huella | Ahorra 16 MB en el móvil y permite actualizar la ciencia sin tocar los datos del usuario | Guardarla también en la caché del service worker |
 
 D-017 matiza D-013: siguen siendo dos bases lógicas (ciencia y usuario), pero la de ciencia ocupa dos archivos.
 
@@ -90,14 +94,19 @@ Siguen sin verificar:
 | K-02 | El importador **no se ha ejecutado en Windows**, solo en el entorno de Claude (Linux, Node 22.23) | Puede aparecer algún detalle de rutas o de versión de Node | Ejecutar `npm run probar` en el ordenador de Pablo cuando tenga Node instalado |
 | K-03 | Un taxón que desaparezca en una versión futura conserva su identificador en el archivo de anclas, pero no se guarda en la base como «no vigente» | Sin efecto mientras solo haya una versión importada | Hito 1.4 |
 | K-04 | Las plantillas de URL externas solo están verificadas para eBird y BirdLife; la de Avibase está vacía | No se puede enlazar a Avibase desde la ficha | Verificarla cuando se haga la ficha (fase 2) |
+| K-05 | La app **no se ha probado en Safari ni en iPhone**, solo en Chrome | Es justo lo que T2 tiene que comprobar | Comprobaciones A-F de `ROADMAP.md` |
+| K-06 | La app solo puede estar abierta en una pestaña o ventana a la vez (limitación del modo de almacenamiento elegido) | Si se abre dos veces, la segunda muestra un mensaje de error claro | Aceptable para una app instalada; revisar si molesta |
+| K-07 | La búsqueda por nombre en inglés recorre toda la tabla (258 ms en ordenador) | En el iPhone puede superar el objetivo de 300 ms | Índice de texto completo en la fase 2 |
+| K-08 | Los iconos de la app son provisionales (un círculo sobre fondo liso) | Ninguno funcional | Identidad visual pendiente de decidir |
 
 ## 7. Tareas pendientes
 
 | Tarea | Quién | Para cuándo |
 |---|---|---|
 | Instalar Node.js 22.18 o posterior en el ordenador y ejecutar `npm run probar` en `datos/` | Pablo | Antes o durante T2 |
-| T2 — Prueba en el iPhone | Claude + Pablo | Siguiente |
-| Conectar Cloudflare Pages con el repositorio de GitHub | Pablo, guiado por Claude | Durante T2 |
+| Conectar Cloudflare Pages con el repositorio de GitHub | Pablo, guiado por Claude | **Ahora** |
+| Comprobaciones A-E de T2 en el iPhone y comunicar el resultado | Pablo | Tras publicar |
+| Comprobación F de T2 (8 días sin abrir la app) | Pablo | 8 días después de guardar la primera nota |
 | Hito 1.3 — Lista de España (el PDF de SEO/BirdLife ya está aportado y su texto es extraíble) | Claude | Tras T2 |
 | Proponer lista de caracteres de identificación | Claude | Fase 2 |
 | Elegir las 30-50 especies iniciales del identificador | Pablo | Fase 2 |
@@ -114,3 +123,4 @@ Hecho: descarga del archivo de AviList v2026 (Pablo), T1 (Claude), PDF de la lis
 | 2026-11-15 | Revisión con Pablo: aprobadas las diez propuestas (D-006 a D-015). Fase 0 cerrada |
 | 2026-11-15 | T1 hecha: importador de AviList v2026 (33.698 taxones), 17 pruebas de 17 superadas. Decisiones técnicas D-016 a D-018. Verificados contra el archivo los datos pendientes de AviList |
 | 2026-11-15 | Repositorio privado `RavelRus/avedex` creado; documentación y `datos/` subidos a `main`. Decisión D-019 sobre cómo se suben los cambios |
+| 2026-11-15 | T2 construida: app de prueba en `app/`, 8 pasos de 8 superados en Chrome. Decisiones D-020 a D-022. Pendiente: publicar en Cloudflare y probar en el iPhone |

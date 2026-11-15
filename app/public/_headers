@@ -1,0 +1,6 @@
+# Cloudflare Pages: estos dos archivos no deben quedarse guardados en caché,
+# para que el móvil detecte enseguida una versión nueva de la app o de la base de aves.
+/sw.js
+  Cache-Control: no-cache
+/referencia.json
+  Cache-Control: no-cache

@@ -1,0 +1,31 @@
+{
+  "name": "avedex-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AVEDEX — aplicación web instalable (PWA). En T2 es solo una app de prueba de almacenamiento.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "tipos": "tsc --noEmit",
+    "probar:navegador": "node pruebas/navegador.mjs"
+  },
+  "dependencies": {
+    "@sqlite.org/sqlite-wasm": "^3.54.1-build1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "playwright-core": "^1.65.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  }
+}
