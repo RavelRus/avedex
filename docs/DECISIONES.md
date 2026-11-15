@@ -1,6 +1,6 @@
 # DECISIONES, RIESGOS Y PENDIENTES
 
-Versión 0.3 — 2026-11-15
+Versión 0.4 — 2026-11-15
 
 ## 1. Decisiones tomadas
 
@@ -23,6 +23,7 @@ Versión 0.3 — 2026-11-15
 | D-013 | Dos bases SQLite separadas: referencia científica y datos del usuario | Una sola base | `ARQUITECTURA.md` §4 |
 | D-014 | Sin servidor ni cuentas en el MVP; copia de seguridad por exportación | Servidor gratuito desde el principio | `ARQUITECTURA.md` §6 |
 | D-015 | Primera tarea: importador de AviList (T1). Segunda: prueba en el iPhone (T2) | Empezar por la prueba en el iPhone con datos de ejemplo | `ROADMAP.md` |
+| D-019 | Claude sube cada cambio directamente a la rama `main` del repositorio y resume lo hecho; Pablo revisa después | Rama aparte y solicitud (pull request) que Pablo aprueba antes | `README.md` |
 
 ### Técnicas, tomadas por Claude durante T1 (2026-11-15)
 
@@ -49,7 +50,7 @@ D-017 matiza D-013: siguen siendo dos bases lógicas (ciencia y usuario), pero l
 
 ## 3. Propuestas pendientes de aprobación
 
-Ninguna. Hay dos cuestiones abiertas para T2 en §7.
+Ninguna.
 
 ## 4. Riesgos
 
@@ -94,16 +95,16 @@ Siguen sin verificar:
 
 | Tarea | Quién | Para cuándo |
 |---|---|---|
-| Decidir cómo llega el código al repositorio privado de GitHub (ver nota) | Pablo | **Bloquea T2** |
 | Instalar Node.js 22.18 o posterior en el ordenador y ejecutar `npm run probar` en `datos/` | Pablo | Antes o durante T2 |
 | T2 — Prueba en el iPhone | Claude + Pablo | Siguiente |
+| Conectar Cloudflare Pages con el repositorio de GitHub | Pablo, guiado por Claude | Durante T2 |
 | Hito 1.3 — Lista de España (el PDF de SEO/BirdLife ya está aportado y su texto es extraíble) | Claude | Tras T2 |
 | Proponer lista de caracteres de identificación | Claude | Fase 2 |
 | Elegir las 30-50 especies iniciales del identificador | Pablo | Fase 2 |
 
-Nota sobre el repositorio: las cuentas de GitHub y Cloudflare ya existen. Falta crear el repositorio privado y elegir entre que Claude suba el código directamente (requiere que Pablo conecte GitHub a esta sesión) o que Pablo lo suba desde su ordenador.
+Repositorio: <https://github.com/RavelRus/avedex> (privado). La app de GitHub de Claude está instalada en él, de modo que Claude puede leer y subir cambios. El PDF de SEO/BirdLife **no** está en el repositorio.
 
-Hecho: descarga del archivo de AviList v2026 (Pablo), T1 (Claude), PDF de la lista de SEO/BirdLife (Pablo), cuentas de GitHub y Cloudflare (Pablo).
+Hecho: descarga del archivo de AviList v2026 (Pablo), T1 (Claude), PDF de la lista de SEO/BirdLife (Pablo), cuentas de GitHub y Cloudflare (Pablo), repositorio privado creado y primer commit subido (Pablo y Claude).
 
 ## 8. Registro de sesiones
 
@@ -112,3 +113,4 @@ Hecho: descarga del archivo de AviList v2026 (Pablo), T1 (Claude), PDF de la lis
 | 2026-11-15 | Cuatro decisiones de partida (D-001 a D-004). Investigación de fuentes y viabilidad técnica. Redacción de la Fase 0 |
 | 2026-11-15 | Revisión con Pablo: aprobadas las diez propuestas (D-006 a D-015). Fase 0 cerrada |
 | 2026-11-15 | T1 hecha: importador de AviList v2026 (33.698 taxones), 17 pruebas de 17 superadas. Decisiones técnicas D-016 a D-018. Verificados contra el archivo los datos pendientes de AviList |
+| 2026-11-15 | Repositorio privado `RavelRus/avedex` creado; documentación y `datos/` subidos a `main`. Decisión D-019 sobre cómo se suben los cambios |

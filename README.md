@@ -8,8 +8,8 @@ Aplicación de identificación, aprendizaje y registro de aves. Empieza por Espa
 |---|---|
 | Fase | **1 — Base científica.** Hito 1.1 (tarea T1, importador de AviList) hecho el 2026-11-15 |
 | Situación | Existe `datos/`: importa AviList v2026 completo (33.698 taxones) a SQLite con identificadores estables. 17 pruebas de 17 superadas en el entorno de Claude; **sin ejecutar aún en Windows**. La app no existe todavía |
-| Siguiente paso | Tarea T2 de `docs/ROADMAP.md`: prueba en el iPhone. Antes hay que crear el repositorio privado de GitHub |
-| Dónde está el código | **Todavía no hay repositorio.** El código de `datos/` está en el archivo `avedex-T1.zip` entregado a Pablo el 2026-11-15. Si se retoma el proyecto en una sesión nueva antes de crear el repositorio, hay que adjuntar ese zip |
+| Siguiente paso | Tarea T2 de `docs/ROADMAP.md`: prueba en el iPhone |
+| Dónde está el código | Repositorio privado <https://github.com/RavelRus/avedex>, rama `main`. Claude sube los cambios directamente a `main` y Pablo los revisa después (D-019) |
 
 ## Decisiones técnicas principales
 
