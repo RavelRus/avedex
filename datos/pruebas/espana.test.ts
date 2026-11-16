@@ -8,7 +8,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { describe, test } from 'node:test';
 import { cruzarEspana, grupoDe, RUTAS_ESPANA } from '../src/cruzar-espana.ts';
 import { escribirCsv, leerCsv } from '../src/csv.ts';
-import { interpretarSubespecies, normalizarCategoria, raizEpiteto } from '../src/espana.ts';
+import { cruzarConAviList, interpretarSubespecies, normalizarCategoria, raizEpiteto } from '../src/espana.ts';
 
 test('CSV: ida y vuelta con comas, comillas y saltos de línea', () => {
   const filas = [{ a: 'uno, dos', b: 'dice "hola"' }, { a: 'línea\npartida', b: '' }];
@@ -39,7 +39,14 @@ test('categorías y epítetos: normalización', () => {
 const hayDatos = existsSync(RUTAS_ESPANA.lista) && existsSync(RUTAS_ESPANA.referencia);
 
 describe('cruce real con AviList', { skip: hayDatos ? false : 'faltan la lista de España o referencia.sqlite' }, () => {
+  // «resultados» aplica las equivalencias que Pablo ha revisado; «sinRevisar» es el cruce automático puro,
+  // que es lo que se usa para comprobar la lógica de clasificación.
   const { entradas, resultados } = hayDatos ? cruzarEspana() : { entradas: [], resultados: [] };
+  const sinRevisar = (() => {
+    if (!hayDatos) return [];
+    const db = new DatabaseSync(RUTAS_ESPANA.referencia, { readOnly: true });
+    try { return cruzarConAviList(entradas, db, []); } finally { db.close(); }
+  })();
 
   test('la lista tiene los 638 taxones que declara la edición de 2022', () => {
     assert.equal(entradas.length, 638);
@@ -79,15 +86,14 @@ describe('cruce real con AviList', { skip: hayDatos ? false : 'faltan la lista d
   });
 
   test('todo caso pendiente cae en un grupo de decisión y trae candidatos', () => {
-    const pendientes = resultados.filter((r) => r.estado === 'sin_equivalencia');
-    for (const r of pendientes) {
+    for (const r of [...sinRevisar, ...resultados].filter((x) => x.estado === 'sin_equivalencia')) {
       assert.ok(r.candidatos.length > 0, `sin candidatos: ${r.entrada.nombre}`);
       assert.notEqual(grupoDe(r), 'G0', `sin clasificar: ${r.entrada.nombre}`);
     }
   });
 
   test('casos conocidos', () => {
-    const de = (nombre: string) => resultados.find((r) => r.entrada.nombre === nombre)!;
+    const de = (nombre: string) => sinRevisar.find((r) => r.entrada.nombre === nombre)!;
     assert.equal(de('Parus major').estado, 'exacta');
     assert.equal(de('Parus major').entrada.nombreEspanol, 'Carbonero común');
     assert.equal(grupoDe(de('Larus audouinii')), 'G1');
@@ -96,6 +102,17 @@ describe('cruce real con AviList', { skip: hayDatos ? false : 'faltan la lista d
     assert.equal(grupoDe(de('Fringilla coelebs')), 'G4');
     assert.equal(grupoDe(de('Haematopus meadewaldoi')), null);
     assert.equal(de('Haematopus meadewaldoi').entrada.marcadoExtinto, true);
+  });
+
+  test('las equivalencias revisadas por Pablo se aplican y apuntan a taxones que existen', () => {
+    const de = (nombre: string) => resultados.find((r) => r.entrada.nombre === nombre)!;
+    assert.equal(de('Larus audouinii').estado, 'revisada');
+    assert.equal(de('Larus audouinii').nombreAviList, 'Ichthyaetus audouinii');
+    assert.equal(de('Corvus cornix').nombreAviList, 'Corvus corone cornix');
+    assert.equal(de('Pterodroma macroptera / P. arminjoniana').estado, 'revisada');
+    assert.equal(de('Pterodroma macroptera / P. arminjoniana').taxonId, null);
+    // Nada queda enlazado sin ser coincidencia exacta o decisión revisada.
+    for (const r of resultados.filter((x) => x.taxonId !== null)) assert.ok(r.estado === 'exacta' || r.estado === 'revisada');
   });
 });
 
