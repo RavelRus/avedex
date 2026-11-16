@@ -8,12 +8,12 @@ Generado por `npm run cruzar-espana`. **Contiene datos de SEO/BirdLife sin licen
 |---|---|
 | Coincidencia exacta de nombre científico, sin incidencias | 598 |
 | G4 — Mismo nombre, pero AviList ha separado parte en otra especie | 6 |
-| G1 — Cambio de género o de terminación, mismo nombre en inglés | 25 |
-| G2 — Cambio de género, nombre en inglés distinto | 3 |
-| G3 — Especie en la lista, subespecie en AviList | 4 |
-| G5 — Pares de especies no asignables | 2 |
+| G1 — Cambio de género o de terminación, mismo nombre en inglés | 0 |
+| G2 — Cambio de género, nombre en inglés distinto | 1 |
+| G3 — Especie en la lista, subespecie en AviList | 0 |
+| G5 — Pares de especies no asignables | 0 |
 | Sin clasificar | 0 |
-| Ya revisadas por Pablo | 0 |
+| Ya revisadas por Pablo | 33 |
 | **Total** | **638** |
 
 Ninguna propuesta de este informe está aplicada. Solo cuenta lo que figure en `fuentes/seo/equivalencias-revisadas.csv`.
@@ -24,31 +24,6 @@ Propuesta: equivalencia **exacta** (misma especie con el nombre científico actu
 
 | Lista de España | AviList | Ámbito |
 |---|---|---|
-| *Crex egregia* (Guión africano) | *Crecopsis egregia* | PB: A · CA: A |
-| *Porphyrio martinicus* (Calamoncillo americano) | *Porphyrio martinica* | CA: A |
-| *Amaurornis marginalis* (Polluela culirroja) | *Aenigmatolimnas marginalis* | PB: A |
-| *Charadrius dubius* (Chorlitejo chico) | *Thinornis dubius* | PB: A · NA: A · CA: A |
-| *Charadrius pecuarius* (Chorlitejo pecuario) | *Anarhynchus pecuarius* | PB: A |
-| *Charadrius alexandrinus* (Chorlitejo patinegro) | *Anarhynchus alexandrinus* | PB: A · NA: A · CA: A |
-| *Charadrius leschenaultii* (Chorlitejo mongol grande) | *Anarhynchus leschenaultii* | PB: A |
-| *Charadrius morinellus* (Chorlito carambolo) | *Eudromias morinellus* | PB: A · NA: A · CA: A |
-| *Larus atricilla* (Gaviota guanaguanare) | *Leucophaeus atricilla* | PB: A · CA: A |
-| *Larus pipixcan* (Gaviota pipizcán) | *Leucophaeus pipixcan* | PB: A · CA: A |
-| *Larus audouinii* (Gaviota de Audouin) | *Ichthyaetus audouinii* | PB: A · NA: A · CA: A |
-| *Larus melanocephalus* (Gaviota cabecinegra) | *Ichthyaetus melanocephalus* | PB: A · NA: A · CA: A |
-| *Larus ichthyaetus* (Gavión cabecinegro) | *Ichthyaetus ichthyaetus* | PB: A |
-| *Ixobrychus minutus* (Avetorillo común) | *Botaurus minutus* | PB: A · NA: A · CA: A |
-| *Ixobrychus sturmii* (Avetorillo plomizo) | *Botaurus sturmii* | CA: A |
-| *Corvus monedula* (Grajilla occidental) | *Coloeus monedula* | PB: A · NA: A · CA: A |
-| *Troglodytes troglodytes* (Chochín paleártico) | *Nannus troglodytes* | PB: A · NA: A |
-| *Emberiza sahari* (Escribano sahariano) | *Fringillaria sahari* | PB: A · NA: A |
-| *Emberiza pusilla* (Escribano pigmeo) | *Schoeniclus pusillus* | PB: A · NA: A · CA: A |
-| *Emberiza rustica* (Escribano rústico) | *Schoeniclus rusticus* | PB: A |
-| *Emberiza aureola* (Escribano aureolado) | *Schoeniclus aureolus* | PB: A |
-| *Emberiza melanocephala* (Escribano cabecinegro) | *Melophus melanocephalus* | PB: A (i) |
-| *Emberiza bruniceps* (Escribano carirrojo) | *Melophus bruniceps* | PB: A |
-| *Emberiza spodocephala* (Escribano enmascarado) | *Schoeniclus spodocephalus* | PB: A |
-| *Emberiza schoeniclus* (Escribano palustre) | *Schoeniclus schoeniclus* | PB: A · NA: A · CA: A |
 
 ## G2 — Cambio de género, nombre en inglés distinto
 
@@ -57,8 +32,6 @@ El epíteto coincide, pero el nombre en inglés no: puede ser la misma especie o
 | Lista de España | Inglés en la lista | AviList | Inglés en AviList | Subespecies en la lista |
 |---|---|---|---|---|
 | *Charadrius mongolus* (Chorlitejo mongol chico) | Lesser Sand Plover | *Anarhynchus mongolus* | Siberian Sand Plover | mongolus/stegmanni, atrifrons/pamirensis/schafaeri |
-| *Bubulcus ibis* (Garcilla bueyera) | Cattle Egret | *Ardea ibis* | Western Cattle Egret | ibis |
-| *Accipiter gentilis* (Azor común) | Northern Goshawk | *Astur gentilis* | Eurasian Goshawk | gentilis |
 
 ## G3 — Especie en la lista, subespecie en AviList
 
@@ -66,10 +39,6 @@ Propuesta: enlazar con la subespecie de AviList, que es el mismo conjunto de ave
 
 | Lista de España | AviList | Ámbito |
 |---|---|---|
-| *Anas carolinensis* (Cerceta americana) | *Anas crecca carolinensis* | PB: A · CA: A |
-| *Puffinus mauretanicus* (Pardela balear) | *Puffinus yelkouan mauretanicus* | PB: A · NA: A · CA: A |
-| *Milvus aegyptius* (Milano piquigualdo) | *Milvus migrans aegyptius* | CA: A |
-| *Corvus cornix* (Corneja cenicienta) | *Corvus corone cornix* | PB: A · NA: A |
 
 ## G4 — Mismo nombre, pero AviList ha separado parte en otra especie
 
@@ -108,8 +77,6 @@ El nombre científico coincide, pero la especie de la lista es más amplia que l
 
 Registros que la propia lista no asigna a una sola especie. Propuesta: no enlazarlos con ningún taxón.
 
-- *Pterodroma macroptera / P. arminjoniana* (Petrel aligrande / Petrel de Trinidad) — PB: A
-- *Petrochelidon pyrrhonota / P. fulva* (Golondrina risquera/ Golondrina pueblera) — CA: A
 
 ## Avisos informativos (no requieren decisión)
 

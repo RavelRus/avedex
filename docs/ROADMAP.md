@@ -223,12 +223,19 @@ Los tiempos son de un ordenador, no de un iPhone.
 | G5 — Pares de especies no asignables | 2 |
 | **Total** | **638** |
 
-Ninguna equivalencia dudosa está aplicada: los 40 casos de G1 a G5 esperan la decisión de Pablo.
+**Decisiones de Pablo (2026-11-16)**, anotadas en `datos/fuentes/seo/equivalencias-revisadas.csv`:
+
+- G1 y dos de G2 (garcilla bueyera y azor): 27 especies aprobadas como la misma especie con nombre actualizado.
+- G3: las 4 se enlazan con la subespecie de AviList.
+- G5: los 2 pares no se enlazan con ningún taxón.
+- G4 y el chorlitejo mongol chico (7 entradas divididas por AviList): Claude propone el reparto por ámbitos en `datos/fuentes/seo/reparto-propuesto.md`; **pendiente de que Pablo lo apruebe**.
+
+Estado tras anotarlas: 598 exactas + 33 revisadas = 631 resueltas; 7 pendientes.
 
 **Pruebas:** 27 de 27 superadas en `datos/` (las 17 de T1 más 10 nuevas), entre ellas que ningún dato de SEO/BirdLife esté en la carpeta que se publica.
 
 **Pendiente:**
 
-1. Decisiones de Pablo sobre G1-G5, que se anotan en `datos/fuentes/seo/equivalencias-revisadas.csv`.
+1. Aprobación de Pablo del reparto de las 7 entradas divididas y decisión sobre los nombres en español de las especies resultantes.
 2. Construir el archivo complementario de España (nombres en español, categoría por ámbito) con lo aprobado. Una entrada de la lista podrá enlazarse con varias especies de AviList (casos G4).
 3. Mecanismo para cargar ese archivo en el iPhone sin publicarlo.

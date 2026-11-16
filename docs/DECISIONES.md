@@ -24,6 +24,7 @@ Versión 0.7 — 2026-11-16
 | D-014 | Sin servidor ni cuentas en el MVP; copia de seguridad por exportación | Servidor gratuito desde el principio | `ARQUITECTURA.md` §6 |
 | D-015 | Primera tarea: importador de AviList (T1). Segunda: prueba en el iPhone (T2) | Empezar por la prueba en el iPhone con datos de ejemplo | `ROADMAP.md` |
 | D-023 | La web se publica como **Cloudflare Worker con archivos estáticos** (`avedex.pablocaruiz.workers.dev`), no como proyecto de Pages. Matiza D-008 | Es lo que el panel de Cloudflare creó al importar el repositorio el 2026-11-16; es igualmente gratuito y no merece la pena rehacerlo | Borrarlo y crear un proyecto de Pages | `app/README.md` |
+| D-027 | Cruce con la lista de España: 27 cambios de nombre se dan por la misma especie; las 4 aves que AviList trata como subespecie (pardela balear, corneja cenicienta, milano piquigualdo, cerceta americana) se enlazan con la subespecie; los 2 pares de especies no se enlazan | Enlazar con la especie madre; no incluirlas | `datos/fuentes/seo/equivalencias-revisadas.csv` |
 | D-019 | Claude sube cada cambio directamente a la rama `main` del repositorio y resume lo hecho; Pablo revisa después | Rama aparte y solicitud (pull request) que Pablo aprueba antes | `README.md` |
 
 ### Técnicas, tomadas por Claude durante T1 y T2 (2026-11-15)
@@ -110,7 +111,7 @@ Siguen sin verificar:
 |---|---|---|
 | Instalar Node.js 22.18 o posterior en el ordenador y ejecutar `npm run probar` en `datos/` | Pablo | Antes o durante T2 |
 | Comprobación F de T2 (8 días sin abrir la app) | Pablo | A partir del 2026-11-24 |
-| Decidir los 40 casos del cruce con la lista de España (grupos G1-G5 de `datos/salida/informe-espana.md`) | Pablo | **Ahora** |
+| Aprobar o corregir el reparto de las 7 entradas divididas (`datos/fuentes/seo/reparto-propuesto.md`) y decidir los nombres en español de las especies resultantes | Pablo | **Ahora** |
 | Construir el complemento de España con lo aprobado y el mecanismo para cargarlo en el iPhone | Claude | Tras las decisiones |
 | Comprobación E de T2 (reiniciar el iPhone) | Pablo | Cuando pueda |
 | Proponer lista de caracteres de identificación | Claude | Fase 2 |
