@@ -198,7 +198,7 @@ Los tiempos son de un ordenador, no de un iPhone.
 | A | 2026-11-16 | Superada |
 | B | 2026-11-16 | Superada (17 resultados; tiempo no anotado) |
 | C | 2026-11-16 | Superada |
-| D | 2026-11-16 | **Fallida**: no abría en modo avión. Error de Claude (K-10 en `DECISIONES.md`), corregido el mismo día. Pendiente de repetir |
+| D | 2026-11-16 | Fallida al primer intento: no abría en modo avión (error de Claude, K-10 en `DECISIONES.md`). **Superada** tras el arreglo, el mismo día |
 | E | — | Pendiente |
 | F | — | Pendiente |
 
