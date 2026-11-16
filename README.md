@@ -6,9 +6,10 @@ Aplicación de identificación, aprendizaje y registro de aves. Empieza por Espa
 
 | | |
 |---|---|
-| Fase | **1 — Base científica.** Hito 1.1 (T1, importador de AviList) hecho. Hito 1.2 (T2, prueba en el iPhone) en curso |
-| Situación | `datos/` importa AviList v2026 completo (33.698 taxones) a SQLite con identificadores estables: 17 pruebas de 17 superadas. `app/` es una app de prueba sin diseño que busca y guarda sin conexión: 8 pasos de 8 superados en Chrome. **Nada se ha probado aún en el iPhone ni en Windows** |
-| Siguiente paso | Publicar `app/` en Cloudflare Pages y hacer las comprobaciones A-F de `docs/ROADMAP.md` en el iPhone |
+| Fase | **1 — Base científica.** Hito 1.1 hecho. Hito 1.2 (prueba en el iPhone) superado salvo dos esperas. Hito 1.3 (lista de España) en curso |
+| Situación | `datos/` importa AviList v2026 (33.698 taxones) y cruza la lista de SEO/BirdLife 2022 (638 taxones): 631 resueltos, 7 pendientes de decisión. 28 pruebas de 28 superadas. `app/` es una app de prueba sin diseño, publicada en <https://avedex.pablocaruiz.workers.dev>; en el iPhone de Pablo instala, busca, guarda y abre sin conexión (comprobaciones A-D superadas el 2026-11-16; E y F pendientes). **Nada se ha ejecutado aún en Windows** |
+| Siguiente paso | Pablo aprueba el reparto de las 7 entradas divididas (`datos/fuentes/seo/reparto-propuesto.md`); después se construye el complemento de España y la forma de cargarlo en el iPhone |
+| Documentación al día | **La del repositorio.** Las copias de `docs/` en el Proyecto de Claude pueden ir por detrás: ante la duda, manda el repositorio |
 | Dónde está el código | Repositorio privado <https://github.com/RavelRus/avedex>, rama `main`. Claude sube los cambios directamente a `main` y Pablo los revisa después (D-019) |
 
 ## Decisiones técnicas principales
