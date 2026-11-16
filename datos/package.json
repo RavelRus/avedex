@@ -11,7 +11,8 @@
     "importar": "node src/importar-avilist.ts",
     "probar": "node --test \"pruebas/*.test.ts\"",
     "tipos": "tsc --noEmit",
-    "publicar": "node src/publicar.ts"
+    "publicar": "node src/publicar.ts",
+    "cruzar-espana": "node src/cruzar-espana.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

@@ -1,6 +1,6 @@
 # ROADMAP
 
-Versión 0.4 — 2026-11-15 — Fase 0 cerrada; hito 1.1 (T1) hecho; hito 1.2 (T2) construido y probado en Chrome, pendiente de la prueba en el iPhone
+Versión 0.5 — 2026-11-16 — Hitos 1.1 hecho, 1.2 superado salvo las esperas E y F, 1.3 en curso (cruce hecho, pendiente de las decisiones de Pablo)
 
 Cada hito termina con una comprobación concreta. Un hito no se marca como hecho sin anotar aquí qué se probó y con qué resultado.
 
@@ -29,7 +29,7 @@ Se mantiene el orden de fases del planteamiento original, con tres ajustes:
 |---|---|---|
 | **1.1 Importador de AviList** (tarea T1) — **HECHO 2026-11-15** | Script que convierte el archivo oficial en `referencia.sqlite` | 17 pruebas de 17 superadas. Ver «Resultado de T1» abajo |
 | **1.2 Prueba en el iPhone** (tarea T2) — **EN CURSO** | PWA mínima: carga `referencia.sqlite`, busca por nombre científico, guarda una nota de prueba | Instalada en el iPhone; busca en modo avión; la nota sobrevive a reiniciar el móvil y a 8 días sin abrir la app. Ver «Estado de T2» abajo |
-| 1.3 Lista de España y nombres en español | Importador de la lista de SEO/BirdLife 2022 sobre la taxonomía de AviList, como archivo complementario que se carga en el dispositivo y no se publica (D-009) | Informe de taxones que casan y que no; cero equivalencias sin revisar; el archivo complementario no aparece en la web publicada |
+| **1.3 Lista de España y nombres en español** — **EN CURSO** | Importador de la lista de SEO/BirdLife 2022 sobre la taxonomía de AviList, como archivo complementario que se carga en el dispositivo y no se publica (D-009) | Informe de taxones que casan y que no; cero equivalencias sin revisar; el archivo complementario no aparece en la web publicada |
 | 1.4 Sistema de actualización | Importar una segunda versión (v2025 → v2026) conservando identificadores | Los identificadores de los taxones sin cambios son idénticos tras actualizar; los cambios quedan en `cambio_taxonomico` |
 
 **Decisión de continuidad tras 1.2:** si el almacenamiento falla en el iPhone, se detiene el desarrollo y se replantea la arquitectura con Pablo (opciones: IndexedDB en lugar de OPFS, o asumir la cuota de Apple).
@@ -203,3 +203,32 @@ Los tiempos son de un ordenador, no de un iPhone.
 | F | — | Pendiente |
 
 **Criterio de continuidad:** si A-E se superan, se sigue con el hito 1.3 mientras corre la espera de F. Si alguna de A-E falla, se para y se replantea el almacenamiento con Pablo.
+
+### Hito 1.3 — Lista de España (estado a 2026-11-16)
+
+**Hecho:**
+
+- Extraída la tabla principal del PDF de SEO/BirdLife a `datos/fuentes/seo/lista-aves-espana-2022.csv`: **638 taxones**, la cifra que declara la edición (588 en categorías A y B, 25 solo en D, 25 solo en C y E1), en 88 familias.
+- Cruce con AviList v2026 (`npm run cruzar-espana`), con informe en `datos/salida/informe-espana.md`.
+
+**Resultado del cruce:**
+
+| Situación | Entradas |
+|---|---|
+| Coincidencia exacta de nombre científico, sin incidencias | 598 |
+| G1 — Cambio de género o de terminación, mismo nombre en inglés | 25 |
+| G2 — Cambio de género, nombre en inglés distinto | 3 |
+| G3 — Especie en la lista, subespecie en AviList | 4 |
+| G4 — Mismo nombre, pero AviList ha separado parte en otra especie | 6 |
+| G5 — Pares de especies no asignables | 2 |
+| **Total** | **638** |
+
+Ninguna equivalencia dudosa está aplicada: los 40 casos de G1 a G5 esperan la decisión de Pablo.
+
+**Pruebas:** 27 de 27 superadas en `datos/` (las 17 de T1 más 10 nuevas), entre ellas que ningún dato de SEO/BirdLife esté en la carpeta que se publica.
+
+**Pendiente:**
+
+1. Decisiones de Pablo sobre G1-G5, que se anotan en `datos/fuentes/seo/equivalencias-revisadas.csv`.
+2. Construir el archivo complementario de España (nombres en español, categoría por ámbito) con lo aprobado. Una entrada de la lista podrá enlazarse con varias especies de AviList (casos G4).
+3. Mecanismo para cargar ese archivo en el iPhone sin publicarlo.

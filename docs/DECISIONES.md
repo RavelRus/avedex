@@ -1,6 +1,6 @@
 # DECISIONES, RIESGOS Y PENDIENTES
 
-Versión 0.6 — 2026-11-16
+Versión 0.7 — 2026-11-16
 
 ## 1. Decisiones tomadas
 
@@ -38,6 +38,9 @@ Decisiones de implementación dentro de lo ya aprobado. Se pueden revertir volvi
 | D-020 | La base de aves generada (`app/public/referencia.sqlite`, 16 MB) **se guarda en el repositorio**, junto a su huella `referencia.json`. Se regenera con `npm run publicar` en `datos/` | Cloudflare solo tiene que compilar la app; no depende de ejecutar el importador ni del SQLite experimental de Node en sus servidores | Generarla en cada publicación (más frágil); el coste es que el repositorio crece 16 MB cada vez que cambie la base, previsiblemente una vez al año |
 | D-021 | El service worker (lo que permite abrir sin conexión) es propio, unas 40 líneas generadas por `vite.config.ts` | La librería habitual (vite-plugin-pwa) arrastraba cientos de dependencias, varias con avisos de seguridad | vite-plugin-pwa |
 | D-022 | La base de aves no se guarda dos veces: el service worker guarda solo la app, y la base vive en el almacenamiento privado del navegador (OPFS). La app la vuelve a descargar solo si cambia su huella | Ahorra 16 MB en el móvil y permite actualizar la ciencia sin tocar los datos del usuario | Guardarla también en la caché del service worker |
+| D-024 | La tabla del PDF de SEO/BirdLife se extrae con una herramienta de un solo uso en Python (`datos/herramientas/extraer_lista_seo.py`); el resto trabaja con el CSV resultante | Leer un PDF por posiciones exige una librería, y en Python ya existe y es fiable. Se ejecuta una vez por edición de la lista, no en el uso normal | Añadir una librería de PDF a los scripts de Node |
+| D-025 | Los datos derivados de SEO/BirdLife (CSV, informe del cruce) se guardan en el repositorio privado, en `datos/fuentes/seo/` y `datos/salida/`, y nunca en `app/public/`. Una prueba automática lo comprueba | Hace falta versionarlos para poder reproducir el cruce; un repositorio privado no es publicación | Dejarlos fuera del repositorio |
+| D-026 | El cruce con AviList solo da por buena una coincidencia exacta de nombre científico. Además comprueba que las subespecies que la lista sitúa en España existen bajo esa especie en AviList, porque un nombre idéntico no garantiza el mismo concepto | Así se detectaron seis especies que AviList ha dividido (grupo G4) y que por nombre parecían coincidir | Casar solo por nombre |
 
 D-017 matiza D-013: siguen siendo dos bases lógicas (ciencia y usuario), pero la de ciencia ocupa dos archivos.
 
@@ -106,10 +109,10 @@ Siguen sin verificar:
 | Tarea | Quién | Para cuándo |
 |---|---|---|
 | Instalar Node.js 22.18 o posterior en el ordenador y ejecutar `npm run probar` en `datos/` | Pablo | Antes o durante T2 |
-| Poner en Cloudflare (Settings → Build del Worker `avedex`): directorio raíz `app`, comando de compilación `npm run build`, comando de despliegue `npx wrangler deploy` | Pablo | **Ahora** |
-| Comprobaciones A-E de T2 en el iPhone y comunicar el resultado | Pablo | Tras publicar |
-| Comprobación F de T2 (8 días sin abrir la app) | Pablo | 8 días después de guardar la primera nota |
-| Hito 1.3 — Lista de España (el PDF de SEO/BirdLife ya está aportado y su texto es extraíble) | Claude | Tras T2 |
+| Comprobación F de T2 (8 días sin abrir la app) | Pablo | A partir del 2026-11-24 |
+| Decidir los 40 casos del cruce con la lista de España (grupos G1-G5 de `datos/salida/informe-espana.md`) | Pablo | **Ahora** |
+| Construir el complemento de España con lo aprobado y el mecanismo para cargarlo en el iPhone | Claude | Tras las decisiones |
+| Comprobación E de T2 (reiniciar el iPhone) | Pablo | Cuando pueda |
 | Proponer lista de caracteres de identificación | Claude | Fase 2 |
 | Elegir las 30-50 especies iniciales del identificador | Pablo | Fase 2 |
 
@@ -126,5 +129,6 @@ Hecho: descarga del archivo de AviList v2026 (Pablo), T1 (Claude), PDF de la lis
 | 2026-11-15 | T1 hecha: importador de AviList v2026 (33.698 taxones), 17 pruebas de 17 superadas. Decisiones técnicas D-016 a D-018. Verificados contra el archivo los datos pendientes de AviList |
 | 2026-11-15 | Repositorio privado `RavelRus/avedex` creado; documentación y `datos/` subidos a `main`. Decisión D-019 sobre cómo se suben los cambios |
 | 2026-11-16 | Pablo conecta Cloudflare con el repositorio; se crea un Worker en lugar de un proyecto de Pages (D-023). Primera publicación en blanco (K-09); añadido `app/wrangler.jsonc` |
+| 2026-11-16 | Hito 1.3 empezado: lista de SEO/BirdLife extraída (638 taxones) y cruzada con AviList; 598 coincidencias limpias y 40 casos para decidir. Decisiones D-024 a D-026 |
 | 2026-11-16 | Publicada y funcionando en <https://avedex.pablocaruiz.workers.dev>. Pablo prueba en el iPhone: A, B y C superadas; D falla (K-10). Corregido; D superada al repetirla. Pendientes E (reinicio) y F (8 días) |
 | 2026-11-15 | T2 construida: app de prueba en `app/`, 8 pasos de 8 superados en Chrome. Decisiones D-020 a D-022. Pendiente: publicar en Cloudflare y probar en el iPhone |
