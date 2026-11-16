@@ -1,6 +1,6 @@
 # DECISIONES, RIESGOS Y PENDIENTES
 
-Versión 0.5 — 2026-11-15
+Versión 0.6 — 2026-11-16
 
 ## 1. Decisiones tomadas
 
@@ -23,6 +23,7 @@ Versión 0.5 — 2026-11-15
 | D-013 | Dos bases SQLite separadas: referencia científica y datos del usuario | Una sola base | `ARQUITECTURA.md` §4 |
 | D-014 | Sin servidor ni cuentas en el MVP; copia de seguridad por exportación | Servidor gratuito desde el principio | `ARQUITECTURA.md` §6 |
 | D-015 | Primera tarea: importador de AviList (T1). Segunda: prueba en el iPhone (T2) | Empezar por la prueba en el iPhone con datos de ejemplo | `ROADMAP.md` |
+| D-023 | La web se publica como **Cloudflare Worker con archivos estáticos** (`avedex.pablocaruiz.workers.dev`), no como proyecto de Pages. Matiza D-008 | Es lo que el panel de Cloudflare creó al importar el repositorio el 2026-11-16; es igualmente gratuito y no merece la pena rehacerlo | Borrarlo y crear un proyecto de Pages | `app/README.md` |
 | D-019 | Claude sube cada cambio directamente a la rama `main` del repositorio y resume lo hecho; Pablo revisa después | Rama aparte y solicitud (pull request) que Pablo aprueba antes | `README.md` |
 
 ### Técnicas, tomadas por Claude durante T1 y T2 (2026-11-15)
@@ -96,6 +97,7 @@ Siguen sin verificar:
 | K-05 | La app **no se ha probado en Safari ni en iPhone**, solo en Chrome | Es justo lo que T2 tiene que comprobar | Comprobaciones A-F de `ROADMAP.md` |
 | K-06 | La app solo puede estar abierta en una pestaña o ventana a la vez (limitación del modo de almacenamiento elegido) | Si se abre dos veces, la segunda muestra un mensaje de error claro | Aceptable para una app instalada; revisar si molesta |
 | K-07 | La búsqueda por nombre en inglés recorre toda la tabla (258 ms en ordenador) | En el iPhone puede superar el objetivo de 300 ms | Índice de texto completo en la fase 2 |
+| K-09 | La primera publicación en Cloudflare (2026-11-16) mostraba una pantalla en blanco: se publicó el código fuente sin compilar porque faltaba la configuración | La app no cargaba | Añadido `app/wrangler.jsonc`, que obliga a publicar la carpeta compilada `dist/`. Falta confirmar que el panel tiene el comando de compilación |
 | K-08 | Los iconos de la app son provisionales (un círculo sobre fondo liso) | Ninguno funcional | Identidad visual pendiente de decidir |
 
 ## 7. Tareas pendientes
@@ -103,7 +105,7 @@ Siguen sin verificar:
 | Tarea | Quién | Para cuándo |
 |---|---|---|
 | Instalar Node.js 22.18 o posterior en el ordenador y ejecutar `npm run probar` en `datos/` | Pablo | Antes o durante T2 |
-| Conectar Cloudflare Pages con el repositorio de GitHub | Pablo, guiado por Claude | **Ahora** |
+| Poner en Cloudflare (Settings → Build del Worker `avedex`): directorio raíz `app`, comando de compilación `npm run build`, comando de despliegue `npx wrangler deploy` | Pablo | **Ahora** |
 | Comprobaciones A-E de T2 en el iPhone y comunicar el resultado | Pablo | Tras publicar |
 | Comprobación F de T2 (8 días sin abrir la app) | Pablo | 8 días después de guardar la primera nota |
 | Hito 1.3 — Lista de España (el PDF de SEO/BirdLife ya está aportado y su texto es extraíble) | Claude | Tras T2 |
@@ -122,4 +124,5 @@ Hecho: descarga del archivo de AviList v2026 (Pablo), T1 (Claude), PDF de la lis
 | 2026-11-15 | Revisión con Pablo: aprobadas las diez propuestas (D-006 a D-015). Fase 0 cerrada |
 | 2026-11-15 | T1 hecha: importador de AviList v2026 (33.698 taxones), 17 pruebas de 17 superadas. Decisiones técnicas D-016 a D-018. Verificados contra el archivo los datos pendientes de AviList |
 | 2026-11-15 | Repositorio privado `RavelRus/avedex` creado; documentación y `datos/` subidos a `main`. Decisión D-019 sobre cómo se suben los cambios |
+| 2026-11-16 | Pablo conecta Cloudflare con el repositorio; se crea un Worker en lugar de un proyecto de Pages (D-023). Primera publicación en blanco (K-09); añadido `app/wrangler.jsonc` |
 | 2026-11-15 | T2 construida: app de prueba en `app/`, 8 pasos de 8 superados en Chrome. Decisiones D-020 a D-022. Pendiente: publicar en Cloudflare y probar en el iPhone |

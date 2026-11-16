@@ -28,14 +28,21 @@ npm run probar:navegador prueba automática en Chrome (hay que compilar antes)
 | `src/App.tsx` | La pantalla de prueba |
 | `src/sw-plantilla.js` + `vite.config.ts` | Service worker: guarda la app para abrirla sin conexión |
 | `public/referencia.sqlite`, `referencia.json` | Base de aves y su huella. Las genera `npm run publicar` en `datos/` |
-| `public/_headers` | Reglas de caché para Cloudflare Pages |
+| `public/_headers` | Reglas de caché para Cloudflare |
+| `wrangler.jsonc` | Qué carpeta publica Cloudflare |
 | `.node-version` | Versión de Node que usa Cloudflare al compilar |
 
-## Publicación (Cloudflare Pages)
+## Publicación (Cloudflare Workers, archivos estáticos)
+
+Dirección: <https://avedex.pablocaruiz.workers.dev>
+
+Ajustes del Worker `avedex` en el panel de Cloudflare (Settings → Build):
 
 - Directorio raíz: `app`
 - Comando de compilación: `npm run build`
-- Directorio de salida: `dist`
+- Comando de despliegue: `npx wrangler deploy`
+
+`wrangler.jsonc` indica que se publica la carpeta `dist/`. Cloudflare no ejecuta comandos de compilación escritos en ese archivo: el comando de compilación tiene que estar en el panel.
 
 Cloudflare vuelve a publicar automáticamente con cada cambio en la rama `main`.
 

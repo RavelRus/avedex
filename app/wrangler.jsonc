@@ -1,0 +1,10 @@
+// Configuración de publicación en Cloudflare (Workers con archivos estáticos).
+// Le dice a Cloudflare que publique la carpeta dist/ (la app ya compilada), no el código fuente.
+// El nombre debe coincidir con el del Worker en el panel de Cloudflare.
+{
+  "name": "avedex",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
