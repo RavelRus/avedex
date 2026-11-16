@@ -232,7 +232,7 @@ Los tiempos son de un ordenador, no de un iPhone.
 
 Estado tras anotarlas: 598 exactas + 33 revisadas = 631 resueltas; 7 pendientes.
 
-**Pruebas:** 27 de 27 superadas en `datos/` (las 17 de T1 más 10 nuevas), entre ellas que ningún dato de SEO/BirdLife esté en la carpeta que se publica.
+**Pruebas:** 28 de 28 superadas en `datos/` (las 17 de T1 más 11 nuevas), entre ellas que ningún dato de SEO/BirdLife esté en la carpeta que se publica.
 
 **Pendiente:**
 
