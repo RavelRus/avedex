@@ -6,7 +6,10 @@ import { defineConfig, type Plugin } from 'vite';
 
 // Archivos que el service worker NO guarda: la base de referencia se copia a OPFS (no hace falta
 // tenerla dos veces) y su manifiesto debe pedirse siempre a la red para detectar versiones nuevas.
-const NO_GUARDAR = [/\.sqlite$/, /^referencia\.json$/, /^sw\.js$/];
+// Tampoco se guardan los archivos que Cloudflare no sirve como páginas: _headers es configuración suya
+// (pedirlo devuelve 404) e index.html redirige a «/», que ya está en la lista. Si un solo archivo de la
+// lista falla, el service worker no se instala y la app no abre sin conexión.
+const NO_GUARDAR = [/\.sqlite$/, /^referencia\.json$/, /^sw\.js$/, /^_headers$/, /^_redirects$/, /^index\.html$/];
 
 /**
  * Genera dist/sw.js al terminar la compilación, con la lista exacta de archivos de la app.

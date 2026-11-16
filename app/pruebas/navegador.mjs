@@ -15,7 +15,7 @@ import { join } from 'node:path';
 import { chromium } from 'playwright-core';
 
 const PUERTO = 4173;
-const URL_APP = `http://localhost:${PUERTO}/`;
+const URL_APP = `http://127.0.0.1:${PUERTO}/`;
 const candidatos = [
   process.env.CHROME, '/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser',
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
@@ -29,12 +29,14 @@ if (!chrome) {
 }
 
 const perfil = mkdtempSync(join(tmpdir(), 'avedex-perfil-'));
-const servidor = spawn(process.execPath, ['node_modules/vite/bin/vite.js', 'preview', '--port', String(PUERTO), '--strictPort'], { stdio: 'ignore' });
+// Se sirve con el servidor local de Cloudflare (wrangler dev), que aplica las mismas reglas que producción:
+// no sirve _headers, redirige /index.html a /, etc. Con el servidor de Vite un fallo así pasaba inadvertido.
+const servidor = spawn(process.execPath, ['node_modules/wrangler/bin/wrangler.js', 'dev', '--port', String(PUERTO), '--ip', '127.0.0.1'], { stdio: 'ignore' });
 const pasos = [];
 const paso = (nombre) => { pasos.push(nombre); console.log(`  ✓ ${nombre}`); };
 
 async function esperarServidor() {
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 150; i++) {
     try { if ((await fetch(URL_APP)).ok) return; } catch { /* aún no */ }
     await new Promise((r) => setTimeout(r, 200));
   }
@@ -109,8 +111,20 @@ try {
   await s.pagina.click('text=Guardar');
   await s.pagina.waitForFunction(() => document.querySelector('[data-prueba="num-notas"]')?.textContent === '1');
   paso('nota guardada');
-  // Da tiempo a que el service worker termine de instalarse antes de cerrar.
-  await s.pagina.evaluate(() => navigator.serviceWorker.ready);
+  // El service worker tiene que quedar instalado y activo; si no, la app no abre sin conexión.
+  const estadoSw = await s.pagina.evaluate(async () => {
+    const limite = new Promise((r) => setTimeout(() => r('no se ha instalado en 15 s'), 15_000));
+    const listo = navigator.serviceWorker.ready.then((r) => r.active?.state ?? 'sin worker activo');
+    return Promise.race([listo, limite]);
+  });
+  assert.ok(['activated', 'activating'].includes(estadoSw), `service worker: ${estadoSw}`);
+  const guardados = await s.pagina.evaluate(async () => {
+    const claves = await caches.keys();
+    const cache = await caches.open(claves.find((c) => c.startsWith('avedex-app-')));
+    return (await cache.keys()).length;
+  });
+  assert.ok(guardados >= 8, `solo hay ${guardados} archivos guardados para uso sin conexión`);
+  paso(`service worker instalado, ${guardados} archivos guardados para uso sin conexión`);
   await s.pagina.waitForTimeout(500);
   assert.deepEqual(s.errores, [], 'no debe haber errores en la consola');
   await s.contexto.close();

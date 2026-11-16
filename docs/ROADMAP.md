@@ -160,7 +160,7 @@ PWA mínima sin diseño que carga la `referencia.sqlite` de T1. Es la comprobaci
 
 **Hecho por Claude.** Código en `app/`. La app descarga la base de aves la primera vez, la guarda en el dispositivo, busca por nombre científico o inglés, guarda notas de prueba en una base aparte y abre sin conexión. Muestra un panel de estado para leer el resultado de cada comprobación.
 
-**Probado de verdad en Chrome** (prueba automática `npm run probar:navegador`, 8 pasos de 8 superados, en el entorno de Claude):
+**Probado de verdad en Chrome** (prueba automática `npm run probar:navegador`, en el entorno de Claude; desde el 2026-11-16 son 9 pasos, servidos con el servidor local de Cloudflare):
 
 | Paso | Resultado |
 |---|---|
@@ -190,5 +190,16 @@ Los tiempos son de un ordenador, no de un iPhone.
 | D | Cerrar la app del todo y abrirla en modo avión | Abre, la nota sigue y la búsqueda funciona |
 | E | Apagar y encender el iPhone | La nota sigue |
 | F | No abrirla durante 8 días y volver a abrirla | La nota sigue y «Primera nota guardada hace» marca más de 8 días |
+
+**Resultados en el iPhone de Pablo:**
+
+| Nº | Fecha | Resultado |
+|---|---|---|
+| A | 2026-11-16 | Superada |
+| B | 2026-11-16 | Superada (17 resultados; tiempo no anotado) |
+| C | 2026-11-16 | Superada |
+| D | 2026-11-16 | **Fallida**: no abría en modo avión. Error de Claude (K-10 en `DECISIONES.md`), corregido el mismo día. Pendiente de repetir |
+| E | — | Pendiente |
+| F | — | Pendiente |
 
 **Criterio de continuidad:** si A-E se superan, se sigue con el hito 1.3 mientras corre la espera de F. Si alguna de A-E falla, se para y se replantea el almacenamiento con Pablo.
